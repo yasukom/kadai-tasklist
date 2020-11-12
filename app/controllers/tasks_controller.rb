@@ -8,6 +8,9 @@ class TasksController < ApplicationController
   end
 
   def show
+    unless @task
+      redirect_to root_url
+    end
   end
 
   def new
