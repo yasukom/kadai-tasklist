@@ -1,10 +1,10 @@
 class TasksController < ApplicationController
   before_action :require_user_logged_in
-  before_action :correct_user, only: [:destroy]
-  before_action :set_task, only: [:show, :edit, :update, :destroy]
+  before_action :correct_user, only: [:edit, :update, :destroy]
+  before_action :set_task, only: [:show]
 
   def index
-    @tasks = Task.order(id: :desc).page(params[:page]).per(10)
+    @tasks = current_user.tasks.order(id: :desc).page(params[:page]).per(10)
   end
 
   def show
@@ -49,7 +49,7 @@ class TasksController < ApplicationController
   private
 
   def set_task
-    @task = Task.find(params[:id])
+    @task = current_user.tasks.find_by(id: params[:id])
   end
 
   # Strong Parameter
